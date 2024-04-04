@@ -23,7 +23,11 @@ const post = Astro.props;
 const { title, summary } = post.data;
 ---
 
-<PageLayout title={title} description={summary}>
+<PageLayout
+    title={title}
+    description={summary}
+    image={"/open-graph/blog/" + post.slug + ".png"}
+>
     <TopLayout>
         <div class="animate">
             <ArticleTopLayout entry={post} />
