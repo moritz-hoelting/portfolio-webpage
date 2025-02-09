@@ -66,6 +66,12 @@ const { title, description, image = "/open-graph.jpg" } = Astro.props;
     href={`${Astro.site}rss.xml`}
 />
 
+<!-- Alternative Onion/Tor site -->
+<meta
+    http-equiv="onion-location"
+    content={`http://hoeltingqgu7jntic7tj4wdamw42zbl26yzpw4guwgor4aejwp6zjvid.onion${Astro.url.pathname}`}
+/>
+
 <!-- Global Scripts -->
 <script is:inline src="/js/theme.js"></script>
 <script is:inline src="/js/scroll.js"></script>
