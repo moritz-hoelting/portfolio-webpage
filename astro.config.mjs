@@ -3,6 +3,9 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import solidJs from "@astrojs/solid-js";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+
 import matomo from "./src/integrations/matomo";
 
 // https://astro.build/config
@@ -24,4 +27,8 @@ export default defineConfig({
             respectDoNotTrack: true,
         }),
     ],
+    markdown: {
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+    },
 });
