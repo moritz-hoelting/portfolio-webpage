@@ -1,7 +1,7 @@
 import type { CollectionEntry } from "astro:content"
 import { createEffect, createSignal } from "solid-js"
 import Fuse from "fuse.js"
-import ArrowCard from "@components/ArrowCard"
+// import ArrowCard from "@components/ArrowCard"
 
 type Props = {
   data: CollectionEntry<"blog">[]
@@ -47,7 +47,8 @@ export default function Search({data}: Props) {
           <ul class="flex flex-col gap-3">
             {results().map(result => (
               <li>
-                <ArrowCard entry={result} pill={true} />
+                {/* <ArrowCard entry={result} pill={true} /> */}
+                <div>{JSON.stringify(result, undefined, 2)}</div>
               </li>
             ))}
           </ul>

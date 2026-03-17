@@ -1,10 +1,10 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import PageLayout from "@layouts/PageLayout.astro";
-import TopLayout from "@layouts/TopLayout.astro";
-import BottomLayout from "@layouts/BottomLayout.astro";
-import ArticleTopLayout from "@layouts/ArticleTopLayout.astro";
-import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro";
+import PageLayout from "@/layouts/PageLayout.astro";
+import TopLayout from "@/layouts/TopLayout.astro";
+import BottomLayout from "@/layouts/BottomLayout.astro";
+import ArticleTopLayout from "@/layouts/ArticleTopLayout.astro";
+import ArticleBottomLayout from "@/layouts/ArticleBottomLayout.astro";
 
 // Create the static projects pages
 export async function getStaticPaths() {
@@ -12,7 +12,7 @@ export async function getStaticPaths() {
     return projects
         .filter((project) => !project.data.draft)
         .map((project) => ({
-            params: { slug: project.slug },
+            params: { slug: project.id },
             props: project,
         }));
 }
@@ -26,7 +26,7 @@ const { title, summary } = project.data;
 <PageLayout
     title={title}
     description={summary}
-    image={"/open-graph/projects/" + project.slug + ".png"}
+    image={"/open-graph/projects/" + project.id + ".png"}
 >
     <TopLayout>
         <div class="animate">

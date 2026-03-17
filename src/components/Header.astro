@@ -1,10 +1,10 @@
 ---
 import { Image } from "astro:assets";
-import { SITE, LINKS } from "@consts";
-import { cn } from "@lib/utils";
-import Container from "@components/Container.astro";
+import { SITE, LINKS } from "@/consts";
+import { cn } from "@/lib/utils";
+import Container from "@/components/Container.astro";
 
-import pictureOfMe from "@images/me.jpg";
+import pictureOfMe from "@/images/me.jpg";
 
 const { pathname } = Astro.url;
 const subpath = pathname.match(/[^/]+/g);
@@ -25,8 +25,9 @@ const subpath = pathname.match(/[^/]+/g);
                         loading="eager"
                         alt="Me"
                         class="size-6 fill-current rounded-full"
+                        quality="low"
                     />
-                    <div>
+                    <div class="font-departure font-bold">
                         {SITE.TITLE}
                     </div>
                 </a>
@@ -43,13 +44,13 @@ const subpath = pathname.match(/[^/]+/g);
                             <a
                                 href={LINK.HREF}
                                 class={cn(
-                                    "h-8 rounded-full px-3 text-current",
+                                    "h-8 rounded-full px-3 text-current font-departure",
                                     "flex items-center justify-center",
                                     "transition-colors duration-300 ease-in-out",
                                     pathname === LINK.HREF ||
                                         "/" + subpath?.[0] === LINK.HREF
                                         ? "bg-black dark:bg-white text-white dark:text-black"
-                                        : "hover:bg-black/5 dark:hover:bg-white/20 hover:text-black dark:hover:text-white"
+                                        : "hover:bg-black/5 dark:hover:bg-white/20 hover:text-black dark:hover:text-white",
                                 )}
                             >
                                 {LINK.TEXT}
@@ -63,24 +64,24 @@ const subpath = pathname.match(/[^/]+/g);
                 class="buttons absolute right-0 top-1/2 -translate-y-1/2 flex gap-1"
             >
                 <a
-                    href="/search"
+                    href="/search/"
                     aria-label={`Search blog posts and projects on ${SITE.TITLE}`}
                     class={cn(
                         "hidden md:flex",
-                        "size-9 rounded-full p-2 items-center justify-center",
+                        "size-9 rounded-full p-2 items-center justify-center text-center",
                         "bg-transparent hover:bg-black/5 dark:hover:bg-white/20",
                         "stroke-current hover:stroke-black hover:dark:stroke-white",
                         "border border-black/10 dark:border-white/25",
                         "transition-colors duration-300 ease-in-out",
-                        pathname === "/search" ||
-                            "/" + subpath?.[0] === "/search"
+                        pathname === "/search/" ||
+                            "/" + subpath?.[0] === "/search/"
                             ? "pointer-events-none bg-black dark:bg-white text-white dark:text-black"
-                            : ""
+                            : "",
                     )}
                 >
-                    <svg class="size-full">
-                        <use href="/ui.svg#search"></use>
-                    </svg>
+                    <span class="size-full text-2xl -translate-y-2"
+                        >&#xf002</span
+                    >
                 </a>
 
                 <a
@@ -89,16 +90,14 @@ const subpath = pathname.match(/[^/]+/g);
                     aria-label={`Rss feed for ${SITE.TITLE}`}
                     class={cn(
                         "hidden md:flex",
-                        "size-9 rounded-full p-2 items-center justify-center",
+                        "size-9 rounded-full p-2 items-center justify-center text-center",
                         "bg-transparent hover:bg-black/5 dark:hover:bg-white/20",
                         "stroke-current hover:stroke-black hover:dark:stroke-white",
                         "border border-black/10 dark:border-white/25",
-                        "transition-colors duration-300 ease-in-out"
+                        "transition-colors duration-300 ease-in-out",
                     )}
                 >
-                    <svg class="size-full">
-                        <use href="/ui.svg#rss"></use>
-                    </svg>
+                    <div class="size-full text-2xl -translate-y-2">&#xf428</div>
                 </a>
 
                 <button
@@ -106,19 +105,21 @@ const subpath = pathname.match(/[^/]+/g);
                     aria-label={`Toggle light and dark theme`}
                     class={cn(
                         "hidden md:flex",
-                        "size-9 rounded-full p-2 items-center justify-center",
+                        "size-9 rounded-full p-2 items-center justify-center text-center",
                         "bg-transparent hover:bg-black/5 dark:hover:bg-white/20",
                         "stroke-current hover:stroke-black hover:dark:stroke-white",
                         "border border-black/10 dark:border-white/25",
-                        "transition-colors duration-300 ease-in-out"
+                        "transition-colors duration-300 ease-in-out",
                     )}
                 >
-                    <svg class="size-full block dark:hidden">
-                        <use href="/ui.svg#sun"></use>
-                    </svg>
-                    <svg class="size-full hidden dark:block">
-                        <use href="/ui.svg#moon"></use>
-                    </svg>
+                    <span
+                        class="size-full text-2xl -translate-y-2 block dark:hidden"
+                        >&#xf522</span
+                    >
+                    <span
+                        class="size-full text-2xl -translate-y-2 hidden dark:block"
+                        >&#xf4ee</span
+                    >
                 </button>
 
                 <button
@@ -126,19 +127,15 @@ const subpath = pathname.match(/[^/]+/g);
                     aria-label={`Toggle drawer open and closed`}
                     class={cn(
                         "flex md:hidden",
-                        "size-9 rounded-full p-2 items-center justify-center",
+                        "size-9 rounded-full p-2 items-center justify-center text-center",
                         "bg-transparent hover:bg-black/5 dark:hover:bg-white/20",
                         "stroke-current hover:stroke-black hover:dark:stroke-white",
                         "border border-black/10 dark:border-white/25",
-                        "transition-colors duration-300 ease-in-out"
+                        "transition-colors duration-300 ease-in-out",
                     )}
                 >
-                    <svg id="drawer-open" class="size-full">
-                        <use href="/ui.svg#menu"></use>
-                    </svg>
-                    <svg id="drawer-close" class="size-full">
-                        <use href="/ui.svg#x"></use>
-                    </svg>
+                    <div id="drawer-open" class="text-2xl">&#xf0c9</div>
+                    <div id="drawer-close" class="text-2xl">&#xf467</div>
                 </button>
             </div>
         </div>

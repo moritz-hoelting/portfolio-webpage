@@ -20,14 +20,21 @@ const { title, description, image = "/open-graph.jpg" } = Astro.props;
 
 <link
     rel="preload"
-    href="/fonts/atkinson-regular.woff"
+    href="/fonts/DepartureMono-Regular.woff"
     as="font"
     type="font/woff"
     crossorigin
 />
 <link
     rel="preload"
-    href="/fonts/atkinson-bold.woff"
+    href="/fonts/FiraCode-Regular.woff"
+    as="font"
+    type="font/woff"
+    crossorigin
+/>
+<link
+    rel="preload"
+    href="/fonts/FiraCode-Bold.woff"
     as="font"
     type="font/woff"
     crossorigin
@@ -75,7 +82,6 @@ const { title, description, image = "/open-graph.jpg" } = Astro.props;
 <!-- Global Scripts -->
 <script is:inline src="/js/theme.js"></script>
 <script is:inline src="/js/scroll.js"></script>
-<script is:inline src="/js/animate.js"></script>
 
 <ClientRouter />
 
@@ -86,7 +92,7 @@ const { title, description, image = "/open-graph.jpg" } = Astro.props;
             ...(
                 e as TransitionBeforeSwapEvent
             ).newDocument.head.querySelectorAll('link[as="font"]'),
-        ].forEach((link) => link.remove())
+        ].forEach((link) => link.remove()),
     );
 </script>
 

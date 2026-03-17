@@ -6,26 +6,26 @@ const projects = Object.fromEntries(
     (await getCollection("projects"))
         .filter((project) => !project.data.draft)
         .map((project) => [
-            "projects/" + project.slug,
+            "projects/" + project.id,
             {
                 title: project.data.title,
                 description: project.data.summary,
             },
-        ])
+        ]),
 );
 const blogs = Object.fromEntries(
     (await getCollection("blog"))
         .filter((blog) => !blog.data.draft)
         .map((blog) => [
-            "blog/" + blog.slug,
+            "blog/" + blog.id,
             {
                 title: blog.data.title,
                 description: blog.data.summary,
             },
-        ])
+        ]),
 );
 
-export const { getStaticPaths, GET } = OGImageRoute({
+export const { getStaticPaths, GET } = await OGImageRoute({
     param: "route",
 
     // A collection of pages to generate images for.
