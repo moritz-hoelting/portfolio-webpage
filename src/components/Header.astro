@@ -1,10 +1,11 @@
 ---
 import { Image } from "astro:assets";
-import { SITE, LINKS } from "@consts";
-import { cn } from "@lib/utils";
-import Container from "@components/Container.astro";
+import { SITE, LINKS } from "@/consts";
+import { cn } from "@/lib/utils";
+import Container from "@/components/Container.astro";
+import { Icon } from "astro-icon/components";
 
-import pictureOfMe from "@images/me.jpg";
+import pictureOfMe from "@/images/me.jpg";
 
 const { pathname } = Astro.url;
 const subpath = pathname.match(/[^/]+/g);
@@ -24,9 +25,10 @@ const subpath = pathname.match(/[^/]+/g);
                         src={pictureOfMe}
                         loading="eager"
                         alt="Me"
-                        class="size-6 fill-current rounded-full"
+                        class="size-6 fill-current rounded-lg mr-2"
+                        quality="low"
                     />
-                    <div>
+                    <div class="font-departure font-bold">
                         {SITE.TITLE}
                     </div>
                 </a>
@@ -43,13 +45,13 @@ const subpath = pathname.match(/[^/]+/g);
                             <a
                                 href={LINK.HREF}
                                 class={cn(
-                                    "h-8 rounded-full px-3 text-current",
+                                    "h-8 rounded-xl px-3 text-current font-departure",
                                     "flex items-center justify-center",
                                     "transition-colors duration-300 ease-in-out",
                                     pathname === LINK.HREF ||
-                                        "/" + subpath?.[0] === LINK.HREF
+                                        "/" + subpath?.[0] + "/" === LINK.HREF
                                         ? "bg-black dark:bg-white text-white dark:text-black"
-                                        : "hover:bg-black/5 dark:hover:bg-white/20 hover:text-black dark:hover:text-white"
+                                        : "hover:bg-black/5 dark:hover:bg-white/20 hover:text-black dark:hover:text-white",
                                 )}
                             >
                                 {LINK.TEXT}
@@ -63,62 +65,60 @@ const subpath = pathname.match(/[^/]+/g);
                 class="buttons absolute right-0 top-1/2 -translate-y-1/2 flex gap-1"
             >
                 <a
-                    href="/search"
-                    aria-label={`Search blog posts and projects on ${SITE.TITLE}`}
+                    href="/search/"
+                    aria-label="Search blog posts and projects"
                     class={cn(
                         "hidden md:flex",
-                        "size-9 rounded-full p-2 items-center justify-center",
+                        "size-9 rounded-full p-2 items-center justify-center text-center",
                         "bg-transparent hover:bg-black/5 dark:hover:bg-white/20",
                         "stroke-current hover:stroke-black hover:dark:stroke-white",
                         "border border-black/10 dark:border-white/25",
                         "transition-colors duration-300 ease-in-out",
-                        pathname === "/search" ||
-                            "/" + subpath?.[0] === "/search"
+                        pathname === "/search/" ||
+                            "/" + subpath?.[0] === "/search/"
                             ? "pointer-events-none bg-black dark:bg-white text-white dark:text-black"
-                            : ""
+                            : "",
                     )}
                 >
-                    <svg class="size-full">
-                        <use href="/ui.svg#search"></use>
-                    </svg>
+                    <Icon name="pixelarticons:search" class:list="text-xl" />
                 </a>
 
                 <a
                     href="/rss.xml"
                     target="_blank"
-                    aria-label={`Rss feed for ${SITE.TITLE}`}
+                    aria-label="Rss feed"
                     class={cn(
                         "hidden md:flex",
-                        "size-9 rounded-full p-2 items-center justify-center",
+                        "size-9 rounded-full p-2 items-center justify-center text-center",
                         "bg-transparent hover:bg-black/5 dark:hover:bg-white/20",
                         "stroke-current hover:stroke-black hover:dark:stroke-white",
                         "border border-black/10 dark:border-white/25",
-                        "transition-colors duration-300 ease-in-out"
+                        "transition-colors duration-300 ease-in-out active:opacity-1!",
                     )}
                 >
-                    <svg class="size-full">
-                        <use href="/ui.svg#rss"></use>
-                    </svg>
+                    <Icon name="pixelarticons:rss" class:list="text-xl" />
                 </a>
 
                 <button
                     id="header-theme-button"
-                    aria-label={`Toggle light and dark theme`}
+                    aria-label="Toggle light and dark theme"
                     class={cn(
                         "hidden md:flex",
-                        "size-9 rounded-full p-2 items-center justify-center",
+                        "size-9 rounded-full p-2 items-center justify-center text-center",
                         "bg-transparent hover:bg-black/5 dark:hover:bg-white/20",
                         "stroke-current hover:stroke-black hover:dark:stroke-white",
                         "border border-black/10 dark:border-white/25",
-                        "transition-colors duration-300 ease-in-out"
+                        "transition-colors duration-300 ease-in-out",
                     )}
                 >
-                    <svg class="size-full block dark:hidden">
-                        <use href="/ui.svg#sun"></use>
-                    </svg>
-                    <svg class="size-full hidden dark:block">
-                        <use href="/ui.svg#moon"></use>
-                    </svg>
+                    <Icon
+                        name="pixelarticons:sun"
+                        class:list={"text-xl block dark:hidden"}
+                    />
+                    <Icon
+                        name="pixelarticons:moon"
+                        class:list={"text-xl hidden dark:block"}
+                    />
                 </button>
 
                 <button
@@ -126,19 +126,22 @@ const subpath = pathname.match(/[^/]+/g);
                     aria-label={`Toggle drawer open and closed`}
                     class={cn(
                         "flex md:hidden",
-                        "size-9 rounded-full p-2 items-center justify-center",
+                        "size-9 rounded-full p-2 items-center justify-center text-center",
                         "bg-transparent hover:bg-black/5 dark:hover:bg-white/20",
                         "stroke-current hover:stroke-black hover:dark:stroke-white",
                         "border border-black/10 dark:border-white/25",
-                        "transition-colors duration-300 ease-in-out"
+                        "transition-colors duration-300 ease-in-out",
                     )}
                 >
-                    <svg id="drawer-open" class="size-full">
-                        <use href="/ui.svg#menu"></use>
-                    </svg>
-                    <svg id="drawer-close" class="size-full">
-                        <use href="/ui.svg#x"></use>
-                    </svg>
+                    <div id="drawer-open">
+                        <Icon name="pixelarticons:menu" class:list="text-xl" />
+                    </div>
+                    <div id="drawer-close">
+                        <Icon
+                            name="pixelarticons:chevron-up"
+                            class:list="text-xl"
+                        />
+                    </div>
                 </button>
             </div>
         </div>

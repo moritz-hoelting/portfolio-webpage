@@ -1,10 +1,11 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import PageLayout from "@layouts/PageLayout.astro";
-import TopLayout from "@layouts/TopLayout.astro";
-import BottomLayout from "@layouts/BottomLayout.astro";
-import ArticleTopLayout from "@layouts/ArticleTopLayout.astro";
-import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro";
+import PageLayout from "@/layouts/PageLayout.astro";
+import TopLayout from "@/layouts/TopLayout.astro";
+import BottomLayout from "@/layouts/BottomLayout.astro";
+import ArticleTopLayout from "@/layouts/ArticleTopLayout.astro";
+import ArticleBottomLayout from "@/layouts/ArticleBottomLayout.astro";
+import ArticleContent from "@/components/ArticleContent.astro";
 
 // Create the static blog pages
 export async function getStaticPaths() {
@@ -12,7 +13,7 @@ export async function getStaticPaths() {
     return posts
         .filter((post) => !post.data.draft)
         .map((post) => ({
-            params: { slug: post.slug },
+            params: { slug: post.id },
             props: post,
         }));
 }
@@ -26,13 +27,14 @@ const { title, summary } = post.data;
 <PageLayout
     title={title}
     description={summary}
-    image={"/open-graph/blog/" + post.slug + ".png"}
+    image={"/open-graph/blog/" + post.id + ".png"}
 >
     <TopLayout>
         <div class="animate">
             <ArticleTopLayout entry={post} />
         </div>
     </TopLayout>
+    <ArticleContent entry={post} />
     <BottomLayout>
         <div class="animate">
             <ArticleBottomLayout entry={post} />

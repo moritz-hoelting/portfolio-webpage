@@ -1,11 +1,9 @@
 ---
 import { getCollection } from "astro:content";
-import PageLayout from "@layouts/PageLayout.astro";
-import ArrowCard from "@components/ArrowCard";
-import StackCard from "@components/StackCard.astro";
-import { SITE, SOCIALS } from "@consts";
-import TwinklingStars from "@components/TwinklingStars.astro";
-import MeteorShower from "@components/MeteorShower.astro";
+import PageLayout from "@/layouts/PageLayout.astro";
+import ArrowCard from "@/components/ArrowCard";
+import StackCard from "@/components/StackCard.astro";
+import { SITE, SOCIALS } from "@/consts";
 
 const posts = (await getCollection("blog"))
     .filter((post) => !post.data.draft)
@@ -20,65 +18,41 @@ const projects = (await getCollection("projects"))
 const stack = [
     {
         text: "Astro",
-        icon: "astro",
+        icon: "material-icon-theme:astro",
         href: "https://astro.build",
     },
     {
         text: "Javascript",
-        icon: "javascript",
+        icon: "devicon:javascript",
         href: "https://www.javascript.com",
     },
     {
         text: "Typescript",
-        icon: "typescript",
+        icon: "devicon:typescript",
         href: "https://www.typescriptlang.org",
     },
     {
         text: "Tailwind",
-        icon: "tailwind",
+        icon: "devicon:tailwindcss",
         href: "https://tailwindcss.com",
     },
 ];
 ---
 
 <PageLayout title="Home" description={SITE.DESCRIPTION}>
-    <!-- Light Mode: Particles -->
-    <div class="absolute inset-0 block dark:hidden">
-        <div id="particles1" class="fixed inset-0"></div>
-        <div id="particles2" class="fixed inset-0"></div>
-        <div id="particles3" class="fixed inset-0"></div>
-    </div>
-
-    <!-- Dark Theme: Stars -->
-    <div class="absolute inset-0 bg-black hidden dark:block">
-        <div id="stars1" class="fixed inset-0"></div>
-        <div id="stars2" class="fixed inset-0"></div>
-        <div id="stars3" class="fixed inset-0"></div>
-    </div>
-
-    <!-- Dark Theme: Twinkling Stars / Metors -->
-    <div id="galaxy" class="fixed inset-0">
-        <div class="hidden dark:block">
-            <TwinklingStars />
-            <MeteorShower />
-        </div>
-    </div>
-
-    <script is:inline src="/js/bg.js"></script>
-
     <!-- HERO -->
-    <section class="relative h-screen w-full">
+    <section class="relative h-[75vh] w-full">
         <div
             id="planetcont"
             class="animate absolute inset-0 top-1/4 overflow-hidden"
         >
             <div
                 id="crescent"
-                class="absolute top-0 left-1/2 -translate-x-1/2 w-[250vw] min-h-[100vh] aspect-square rounded-full p-[1px] bg-gradient-to-b from-black/25 dark:from-white/75 from-0% to-transparent to-5%"
+                class="absolute top-0 left-1/2 -translate-x-1/2 w-[250vw] min-h-screen aspect-square rounded-full p-px bg-linear-to-b from-black/25 dark:from-white/75 from-0% to-transparent to-5%"
             >
                 <div
                     id="planet"
-                    class="w-full h-full bg-white dark:bg-black rounded-full p-[1px] overflow-hidden flex justify-center"
+                    class="w-full h-full bg-zinc-300 dark:bg-zinc-900 rounded-full p-px overflow-hidden flex justify-center"
                 >
                     <div
                         id="blur"
@@ -101,7 +75,7 @@ const stack = [
                         Hello, I am Moritz
                     </p>
                     <p
-                        class="animated text-2xl md:text-3xl lg:text-4xl font-bold uppercase text-black dark:text-white"
+                        class="animated text-2xl md:text-3xl lg:text-4xl font-bold font-departure uppercase text-black dark:text-white"
                     >
                         Computer Science Student
                     </p>
@@ -116,13 +90,13 @@ const stack = [
                     >
                         <a
                             href="/blog/"
-                            class="py-2 px-4 rounded truncate text-xs md:text-sm lg:text-base bg-black dark:bg-white text-white dark:text-black hover:opacity-75 blend"
+                            class="py-2 px-4 rounded truncate text-xs md:text-sm lg:text-base font-departure bg-zinc-900 dark:bg-zinc-300 text-white dark:text-black hover:opacity-75 blend"
                         >
                             Read my blog
                         </a>
                         <a
                             href="/work/"
-                            class="py-2 px-4 truncate rounded text-xs md:text-sm lg:text-base border border-black/25 dark:border-white/25 hover:bg-black/5 hover:dark:bg-white/15 blend"
+                            class="py-2 px-4 truncate rounded text-xs md:text-sm lg:text-base font-departure border border-black/25 dark:border-white/25 hover:bg-zinc-900/5 hover:dark:bg-white/15 blend"
                         >
                             View my work
                         </a>
@@ -132,7 +106,7 @@ const stack = [
         </div>
     </section>
 
-    <div class="relative bg-white dark:bg-black">
+    <div class="relative bg-zinc-300 dark:bg-zinc-900">
         <div class="mx-auto max-w-screen-sm p-5 space-y-24 pb-16">
             <!-- About Section -->
             <section class="animate">
@@ -142,16 +116,22 @@ const stack = [
                         a cli-tool. I am motivated by challenging projects where
                         I have to research and learn new concepts.
                     </p>
-                    <p>Now</p>
+                    <p class="font-semibold font-departure">Now</p>
                     <p>
-                        I currently study computer science at
+                        I am currently pursuing a Master's degree in Computer
+                        Science at
                         <a
                             href="https://upb.de"
                             target="_blank"
-                            rel="noopener noreferrer">Paderborn University</a
-                        >
-                        with economics as my minor subject, while also getting a
-                        peek at electrical engineering & maths in my regular subject.
+                            rel="noopener noreferrer"
+                            class="font-departure">Paderborn University</a
+                        >. During my bachelor's program, I gained insight into
+                        electrical engineering and mathematics. Through
+                        extracurricular studies, I have learned about economics.
+                        In the master's program, I can take a broader variety of
+                        courses, including quantum computation, security,
+                        machine learning, and lesser-known fields such as
+                        knowledge representation.
                     </p>
                 </article>
             </section>
@@ -160,7 +140,9 @@ const stack = [
             <section class="animate">
                 <div class="space-y-4">
                     <div class="flex justify-between">
-                        <p class="font-semibold text-black dark:text-white">
+                        <p
+                            class="font-semibold font-departure text-black dark:text-white"
+                        >
                             Recent posts
                         </p>
                         <a
@@ -168,7 +150,7 @@ const stack = [
                             class="w-fit col-span-3 group flex gap-1 items-center underline decoration-[.5px] decoration-black/25 dark:decoration-white/50 hover:decoration-black dark:hover:decoration-white text-black dark:text-white underline-offset-2 blend"
                         >
                             <span
-                                class="text-black/75 dark:text-white/75 group-hover:text-black group-hover:dark:text-white blend"
+                                class="font-departure text-black/75 dark:text-white/75 group-hover:text-black group-hover:dark:text-white blend"
                             >
                                 All posts
                             </span>
@@ -186,31 +168,13 @@ const stack = [
                 </div>
             </section>
 
-            <!-- Tech Stack Section -->
-            <section class="animate">
-                <div class="space-y-4">
-                    <p class="font-semibold text-black dark:text-white">
-                        Website build with
-                    </p>
-                    <div class="flex flex-wrap items-center gap-2 mt-5">
-                        {
-                            stack.map((item) => (
-                                <StackCard
-                                    text={item.text}
-                                    icon={item.icon}
-                                    href={item.href}
-                                />
-                            ))
-                        }
-                    </div>
-                </div>
-            </section>
-
             <!-- Project Preview Section -->
             <section class="animate">
                 <div class="space-y-4">
                     <div class="flex justify-between">
-                        <p class="font-semibold text-black dark:text-white">
+                        <p
+                            class="font-semibold font-departure text-black dark:text-white"
+                        >
                             Recent projects
                         </p>
                         <a
@@ -218,7 +182,7 @@ const stack = [
                             class="w-fit col-span-3 group flex gap-1 items-center underline decoration-[.5px] decoration-black/25 dark:decoration-white/50 hover:decoration-black dark:hover:decoration-white text-black dark:text-white underline-offset-2 blend"
                         >
                             <span
-                                class="text-black/75 dark:text-white/75 group-hover:text-black group-hover:dark:text-white blend"
+                                class="font-departure text-black/75 dark:text-white/75 group-hover:text-black group-hover:dark:text-white blend"
                             >
                                 All projects
                             </span>
@@ -239,10 +203,11 @@ const stack = [
             <!-- Contact Section -->
             <section class="animate">
                 <div>
-                    <p class="font-semibold text-black dark:text-white">
+                    <p
+                        class="font-semibold font-departure text-black dark:text-white"
+                    >
                         Let's Connect
                     </p>
-                    <p>Reach out to me via email or on social media.</p>
                     <div class="grid grid-cols-4 gap-y-2 mt-4 auto-cols-min">
                         {
                             SOCIALS.map((social) => (
@@ -264,6 +229,28 @@ const stack = [
                                         </a>
                                     </div>
                                 </>
+                            ))
+                        }
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tech Stack Section -->
+            <section class="animate">
+                <div class="space-y-4">
+                    <p
+                        class="font-semibold font-departure text-black dark:text-white"
+                    >
+                        Website build with
+                    </p>
+                    <div class="flex flex-wrap items-center gap-2 mt-5">
+                        {
+                            stack.map((item) => (
+                                <StackCard
+                                    text={item.text}
+                                    icon={item.icon}
+                                    href={item.href}
+                                />
                             ))
                         }
                     </div>

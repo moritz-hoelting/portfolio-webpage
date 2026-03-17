@@ -21,7 +21,7 @@ export type MatomoOptions = {
 };
 
 export default function matomoIntegration(
-    options: MatomoOptions
+    options: MatomoOptions,
 ): AstroIntegration {
     if (!options?.url.endsWith("/")) {
         options.url += "/";
@@ -30,8 +30,8 @@ export default function matomoIntegration(
     let script: string;
 
     if (options?.enabled) {
-        script = `import { initMatomo, preconnectMatomo } from "@integrations/matomo/matomo"; initMatomo(${JSON.stringify(
-            options
+        script = `import { initMatomo, preconnectMatomo } from "@/integrations/matomo/matomo"; initMatomo(${JSON.stringify(
+            options,
         )});`;
 
         if (options?.preconnect) {
@@ -44,7 +44,7 @@ export default function matomoIntegration(
             "\x1b[0m",
             "\x1b[34m",
             "Is disabled.",
-            "\x1b[0m"
+            "\x1b[0m",
         );
 
         script = "";
@@ -62,7 +62,7 @@ export default function matomoIntegration(
                         "\x1b[0m",
                         "\x1b[34m",
                         "was integrated successfully.",
-                        "\x1b[0m"
+                        "\x1b[0m",
                     );
                 }
             },

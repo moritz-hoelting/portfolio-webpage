@@ -1,0 +1,117 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import Container from "./Container.astro";
+
+type Props = {
+    entry: CollectionEntry<"projects"> | CollectionEntry<"blog">;
+};
+
+const { entry } = Astro.props;
+
+const { Content, headings } = await render(entry);
+---
+
+<div class="article-layout">
+    <!-- Sidebar -->
+    <aside
+        class="animate toc font-departure max-w-3xl mx-auto px-5 xl:fixed xl:top-24 xl:right-[max(2rem,calc((100vw-84rem)/2))] xl:h-max xl:w-66"
+    >
+        <h3 class="font-semibold text-[0.9rem] opacity-70 mb-2">
+            On this page
+        </h3>
+        <ul class="list-none p-0 m-0">
+            {
+                headings.map((h) => (
+                    <li class={`level-${h.depth}`}>
+                        <a href={`#${h.slug}`}>{h.text}</a>
+                    </li>
+                ))
+            }
+        </ul>
+    </aside>
+
+    <!-- Main content -->
+    <Container size="md">
+        <article class="animate content">
+            <Content />
+        </article>
+    </Container>
+</div>
+
+<style>
+    .toc li {
+        margin-bottom: 0.4rem;
+    }
+
+    .toc li.level-2 {
+        margin-left: 0.5rem;
+    }
+    .toc li.level-3 {
+        margin-left: 1rem;
+    }
+
+    .toc a {
+        opacity: 0.7;
+        text-decoration: none;
+        transition: opacity 0.15s ease;
+    }
+
+    .toc a.active {
+        opacity: 1;
+        font-weight: 600;
+    }
+
+    .toc a:hover {
+        opacity: 1;
+    }
+
+    article.content {
+        grid-area: content;
+    }
+</style>
+
+<style is:global>
+    article.content :is(h1, h2, h3, h4, h5, h6) {
+        font-family: "DepartureMono", monospace;
+        scroll-margin-top: 6rem;
+    }
+
+    article.content a {
+        font-family: "DepartureMono", monospace;
+        text-decoration: none;
+    }
+
+    article.content a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<script>
+    const headings = document.querySelectorAll(
+        "article.content h1[id], article.content h2[id], article.content h3[id]",
+    );
+    const tocLinks = document.querySelectorAll(".toc a");
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute("id");
+
+                    tocLinks.forEach((link) => {
+                        link.classList.toggle(
+                            "active",
+                            link.getAttribute("href") === `#${id}`,
+                        );
+                    });
+                }
+            });
+        },
+        {
+            rootMargin: "0px 0px -80% 0px",
+            threshold: 0.1,
+        },
+    );
+
+    headings.forEach((h) => observer.observe(h));
+</script>

@@ -1,7 +1,8 @@
 import type { CollectionEntry } from "astro:content";
 import { createEffect, createSignal, For, Show } from "solid-js";
-import ArrowCard from "@components/ArrowCard";
-import { cn } from "@lib/utils";
+import ArrowCard from "@/components/ArrowCard";
+import { cn } from "@/lib/utils";
+import { Icon } from "@iconify-icon/solid";
 
 type Props = {
     tags: string[];
@@ -42,7 +43,7 @@ export default function Projects({ data, tags }: Props) {
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div class="col-span-3 sm:col-span-1">
                 <div class="sticky top-24">
-                    <div class="text-sm font-semibold uppercase mb-2 text-black dark:text-white">
+                    <div class="text-sm font-semibold font-departure uppercase mb-2 text-black dark:text-white">
                         Filter
                     </div>
                     <ul class="flex flex-wrap sm:flex-col gap-1.5">
@@ -52,41 +53,29 @@ export default function Projects({ data, tags }: Props) {
                                     <button
                                         onClick={() => toggleTag(tag)}
                                         class={cn(
-                                            "w-full px-2 py-1 rounded",
+                                            "w-full px-2 py-1 rounded font-departure",
                                             "whitespace-nowrap overflow-hidden overflow-ellipsis",
                                             "flex gap-2 items-center",
                                             "bg-black/5 dark:bg-white/10",
                                             "hover:bg-black/10 hover:dark:bg-white/15",
                                             "transition-colors duration-300 ease-in-out",
                                             filter().has(tag) &&
-                                                "text-black dark:text-white"
+                                            "text-black dark:text-white"
                                         )}
                                     >
-                                        <svg
-                                            class={cn(
-                                                "size-5 fill-black/50 dark:fill-white/50",
-                                                "transition-colors duration-300 ease-in-out",
-                                                filter().has(tag) &&
-                                                    "fill-black dark:fill-white"
-                                            )}
-                                        >
-                                            <use
-                                                href={`/ui.svg#square`}
-                                                class={cn(
-                                                    !filter().has(tag)
-                                                        ? "block"
-                                                        : "hidden"
-                                                )}
-                                            />
-                                            <use
-                                                href={`/ui.svg#square-check`}
-                                                class={cn(
-                                                    filter().has(tag)
-                                                        ? "block"
-                                                        : "hidden"
-                                                )}
-                                            />
-                                        </svg>
+                                        <div class={cn(
+                                            "relative size-5 fill-black/50 dark:fill-white/50",
+                                            "transition-colors duration-300 ease-in-out",
+                                            filter().has(tag) &&
+                                            "fill-black dark:fill-white"
+                                        )}>
+                                            <Icon icon="pixelarticons:square" />
+                                            <Icon icon="pixel:check" class={cn("absolute top-0 right-0",
+                                                filter().has(tag)
+                                                    ? "block"
+                                                    : "hidden"
+                                            )} />
+                                        </div>
                                         {tag}
                                     </button>
                                 </li>
@@ -97,7 +86,7 @@ export default function Projects({ data, tags }: Props) {
             </div>
             <div class="col-span-3 sm:col-span-2">
                 <div class="flex flex-col">
-                    <div class="text-sm uppercase mb-2">
+                    <div class="text-sm font-departure uppercase mb-2">
                         SHOWING {projects().length} OF {data.length} PROJECTS
                     </div>
                     <ul class="flex flex-col gap-3">
@@ -107,7 +96,7 @@ export default function Projects({ data, tags }: Props) {
                             </li>
                         ))}
                         <Show when={projects().length == 0}>
-                            <h3 class="mt-5 text-2xl">
+                            <h3 class="mt-5 text-2xl font-departure">
                                 There seem to be no projects matching the
                                 filters yet...
                             </h3>

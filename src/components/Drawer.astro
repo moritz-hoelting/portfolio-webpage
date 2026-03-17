@@ -1,6 +1,6 @@
 ---
-import { SITE, LINKS } from "@consts";
-import { cn } from "@lib/utils";
+import { SITE, LINKS } from "@/consts";
+import { cn } from "@/lib/utils";
 const { pathname } = Astro.url;
 const subpath = pathname.match(/[^/]+/g);
 ---
@@ -16,13 +16,13 @@ const subpath = pathname.match(/[^/]+/g);
                     href={LINK.HREF}
                     class={cn(
                         "flex items-center justify-center px-3 py-1 rounded-full",
-                        "text-current hover:text-black dark:hover:text-white",
+                        "text-current font-departure hover:text-black dark:hover:text-white",
                         "hover:bg-black/5 dark:hover:bg-white/20",
                         "transition-colors duration-300 ease-in-out",
                         pathname === LINK.HREF ||
                             "/" + subpath?.[0] === LINK.HREF
                             ? "pointer-events-none bg-black dark:bg-white text-white dark:text-black"
-                            : ""
+                            : "",
                     )}
                 >
                     {LINK.TEXT}
@@ -36,39 +36,35 @@ const subpath = pathname.match(/[^/]+/g);
             href="/search/"
             aria-label={`Search blog posts and projects on ${SITE.TITLE}`}
             class={cn(
-                "size-9 rounded-full p-2 items-center justify-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out",
-                pathname === "/search" || "/" + subpath?.[0] === "search"
+                "size-9 rounded-full p-2 items-center justify-center text-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out",
+                pathname === "/search/" || "/" + subpath?.[0] === "search"
                     ? "pointer-events-none bg-black dark:bg-white text-white dark:text-black"
-                    : ""
+                    : "",
             )}
         >
-            <svg class="size-full">
-                <use href="/ui.svg#search"></use>
-            </svg>
+            <div class="text-2xl -translate-y-2">&#xf002</div>
         </a>
 
         <a
             href="/rss.xml"
             target="_blank"
             aria-label={`Rss feed for ${SITE.TITLE}`}
-            class="size-9 rounded-full p-2 items-center justify-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out"
+            class="size-9 rounded-full p-2 items-center justify-center text-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out"
         >
-            <svg class="size-full">
-                <use href="/ui.svg#rss"></use>
-            </svg>
+            <div class="text-2xl -translate-y-2">&#xf428</div>
         </a>
 
         <button
             id="drawer-theme-button"
             aria-label={`Toggle light and dark theme`}
-            class="size-9 rounded-full p-2 items-center justify-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out"
+            class="size-9 rounded-full p-2 items-center justify-center text-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out"
         >
-            <svg class="block dark:hidden size-full">
-                <use href="/ui.svg#sun"></use>
-            </svg>
-            <svg class="hidden dark:block size-full">
-                <use href="/ui.svg#moon"></use>
-            </svg>
+            <span class="block dark:hidden text-2xl -translate-y-2"
+                >&#xf522</span
+            >
+            <span class="hidden dark:block text-2xl -translate-y-2"
+                >&#xf4ee</span
+            >
         </button>
     </div>
 </div>

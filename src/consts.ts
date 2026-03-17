@@ -1,8 +1,8 @@
-import type { Site, Page, Links, Socials } from "@types";
+import type { Site, Page, Links, Socials } from "@/types";
 
 // Global
 export const SITE: Site = {
-    TITLE: "Portfolio Moritz Hölting",
+    TITLE: "Portfolio",
     DESCRIPTION: "Welcome to my portfolio website.",
     AUTHOR: "Moritz Hölting",
 };
@@ -55,26 +55,20 @@ export const LINKS: Links = [
 export const SOCIALS: Socials = [
     {
         NAME: "Email",
-        ICON: "email",
+        ICON: "pixelarticons:at-sign",
         TEXT: "moritz@hoelting.dev",
         HREF: "mailto:moritz@hoelting.dev",
     },
     {
         NAME: "Github",
-        ICON: "github",
+        ICON: "pixel:github",
         TEXT: "moritz-hoelting",
         HREF: "https://github.com/moritz-hoelting",
     },
     {
         NAME: "LinkedIn",
-        ICON: "linkedin",
+        ICON: "pixel:linkedin",
         TEXT: "moritz-hölting",
         HREF: "https://www.linkedin.com/in/moritz-h%C3%B6lting/",
-    },
-    {
-        NAME: "Twitter",
-        ICON: "twitter-x",
-        TEXT: "moritz_hoelting",
-        HREF: "https://twitter.com/moritz_hoelting",
     },
 ];
