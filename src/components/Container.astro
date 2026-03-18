@@ -3,9 +3,10 @@ import { cn } from "@/lib/utils";
 
 type Props = {
     size: "sm" | "md" | "lg" | "xl" | "2xl";
+    class?: string;
 };
 
-const { size } = Astro.props;
+const { size, class: className } = Astro.props;
 ---
 
 <div
@@ -16,6 +17,7 @@ const { size } = Astro.props;
         size === "lg" && "max-w-5xl",
         size === "xl" && "max-w-7xl",
         size === "2xl" && "max-w-screen-2xl",
+        className,
     )}
 >
     <slot />
