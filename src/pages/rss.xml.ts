@@ -27,14 +27,17 @@ export async function GET(context: Context) {
     );
 
     return rss({
-        title: SITE.TITLE,
+        title: `${SITE.TITLE} - ${SITE.AUTHOR}`,
         description: SITE.DESCRIPTION,
         site: context.site,
+        stylesheet: "/rss-style.xsl",
         items: items.map(({ item, pre }) => ({
             title: item.data.title,
             description: item.data.summary,
+            author: SITE.AUTHOR,
             pubDate: item.data.date,
-            link: `/${pre}/${item.id}/`,
+            link: `/${item.collection}/${item.id}/`,
+            customData: `<entryType>${item.collection}</entryType>`,
         })),
     });
 }
