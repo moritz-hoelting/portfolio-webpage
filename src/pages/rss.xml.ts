@@ -7,23 +7,17 @@ type Context = {
 };
 
 export async function GET(context: Context) {
-    const posts = (await getCollection("blog")).map((item) => ({
-        item,
-        pre: "blog",
-    }));
-    const projects = (await getCollection("projects")).map((item) => ({
-        item,
-        pre: "projects",
-    }));
+    const posts = await getCollection("blog");
+    const projects = await getCollection("projects");
 
     const items = [...posts, ...projects].filter(
-        ({ item }) => !item.data.draft,
+        (item) => !item.data.draft,
     );
 
     items.sort(
         (a, b) =>
-            new Date(b.item.data.date).getTime() -
-            new Date(a.item.data.date).getTime(),
+            new Date(b.data.date).getTime() -
+            new Date(a.data.date).getTime(),
     );
 
     return rss({
@@ -31,7 +25,7 @@ export async function GET(context: Context) {
         description: SITE.DESCRIPTION,
         site: context.site,
         stylesheet: "/rss-style.xsl",
-        items: items.map(({ item, pre }) => ({
+        items: items.map((item) => ({
             title: item.data.title,
             description: item.data.summary,
             author: SITE.AUTHOR,

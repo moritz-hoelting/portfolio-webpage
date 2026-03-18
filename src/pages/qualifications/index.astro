@@ -94,20 +94,19 @@ function formatShortDate(input: Date | string) {
                             {formatShortDate(entry.data.dateEnd)}
                         </div>
                         <div class="font-departure text-black dark:text-white font-semibold">
-                            {entry.data.institution}
+                            {entry.data.degree}
+                            {entry.data.field && ` – ${entry.data.field}`}
                         </div>
                         <div class="font-departure text-sm font-semibold">
-                            {entry.data.degree}
-                            {entry.data.field && ` - ${entry.data.field}`}
+                            {entry.data.institution +
+                                (entry.data.location
+                                    ? `, ${entry.data.location}`
+                                    : "")}
                         </div>
-                        {(entry.data.finalGrade || entry.data.location) && (
+                        {entry.data.finalGrade && (
                             <div class="text-sm">
                                 {entry.data.finalGrade &&
-                                    `Grade: ${
-                                        entry.data.finalGrade +
-                                        (entry.data.location ? ", " : "")
-                                    }`}
-                                {entry.data.location}
+                                    `Grade: ${entry.data.finalGrade}`}
                             </div>
                         )}
                         {entry.body && (
