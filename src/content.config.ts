@@ -12,6 +12,19 @@ const work = defineCollection({
     }),
 });
 
+const education = defineCollection({
+    loader: glob({ base: "./src/content/education", pattern: "**/*.{md,mdx}" }),
+    schema: z.object({
+        institution: z.string(),
+        degree: z.string(),
+        field: z.string().optional(),
+        location: z.string().optional(),
+        finalGrade: z.union([z.string(), z.number()]).optional(),
+        dateStart: z.date(),
+        dateEnd: z.union([z.date(), z.string()]),
+    }),
+});
+
 const blog = defineCollection({
     loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
     schema: z.object({
@@ -36,4 +49,4 @@ const projects = defineCollection({
     }),
 });
 
-export const collections = { work, blog, projects };
+export const collections = { work, education, blog, projects };
