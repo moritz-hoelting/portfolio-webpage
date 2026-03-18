@@ -5,6 +5,7 @@ import TopLayout from "@/layouts/TopLayout.astro";
 import BottomLayout from "@/layouts/BottomLayout.astro";
 import ArticleTopLayout from "@/layouts/ArticleTopLayout.astro";
 import ArticleBottomLayout from "@/layouts/ArticleBottomLayout.astro";
+import ArticleContent from "@/components/ArticleContent.astro";
 
 // Create the static projects pages
 export async function getStaticPaths() {
@@ -33,6 +34,7 @@ const { title, summary } = project.data;
             <ArticleTopLayout entry={project} />
         </div>
     </TopLayout>
+    <ArticleContent entry={project} />
     <BottomLayout>
         <div class="animate">
             <ArticleBottomLayout entry={project} />

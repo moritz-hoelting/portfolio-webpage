@@ -1,0 +1,33 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import Container from "./Container.astro";
+
+type Props = {
+    entry: CollectionEntry<"projects"> | CollectionEntry<"blog">;
+};
+
+const { entry } = Astro.props;
+
+const { Content } = await render(entry);
+---
+
+<Container size="md">
+    <article class="animate content">
+        <Content />
+    </article>
+</Container>
+
+<style is:global>
+    article.content :is(h1, h2, h3, h4, h5, h6) {
+        font-family: "DepartureMono", monospace;
+    }
+
+    article.content a {
+        font-family: "DepartureMono", monospace;
+        text-decoration: none;
+    }
+
+    article.content a:hover {
+        text-decoration: underline;
+    }
+</style>

@@ -1,16 +1,14 @@
 
 import type { CollectionEntry } from "astro:content";
 import { formatDate } from "@/lib/utils";
-import { children } from "solid-js";
+import { Icon } from '@iconify-icon/solid';
 
 type Props = {
     entry: CollectionEntry<"blog"> | CollectionEntry<"projects">;
     pill?: string;
-    children: any;
 };
 
-export default function ArrowCard({ entry, pill, children: c }: Props) {
-    const arrow = children(() => c).toArray();
+export default function ArrowCard({ entry, pill }: Props) {
     return (
         <a
             href={`/${entry.collection}/${entry.id}/`}
@@ -42,7 +40,20 @@ export default function ArrowCard({ entry, pill, children: c }: Props) {
                     )}
                 </ul>
             </div>
-            {arrow}
+            <div class="relative overflow-hidden w-4 h-4">
+                <Icon
+                    icon="pixelarticons:arrow-right"
+                    class="absolute right-0 inset-y-0 text-lg origin-left
+                        scale-x-0 group-hover:scale-x-100
+                        transition-all duration-300 ease-in-out"
+                />
+                <Icon
+                    icon="pixelarticons:chevron-right"
+                    class="absolute right-0 inset-y-0 text-lg
+                        group-hover:translate-x-4
+                        transition-all duration-300 ease-in-out"
+                />
+            </div>
         </a>
     );
 }

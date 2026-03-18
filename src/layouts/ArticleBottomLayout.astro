@@ -1,5 +1,6 @@
 ---
-import { type CollectionEntry, getCollection, render } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
 
 type Props = {
     entry: CollectionEntry<"blog"> | CollectionEntry<"projects">;
@@ -8,7 +9,6 @@ type Props = {
 // Get the requested entry
 const { entry } = Astro.props;
 const { collection } = entry;
-const { Content } = await render(entry);
 
 // Get the next and prev entries (modulo to wrap index)
 const items = (await getCollection(collection))
@@ -20,9 +20,6 @@ const next = items[(index - 1 + items.length) % items.length];
 ---
 
 <div>
-    <article>
-        <Content />
-    </article>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <a
             href={`/${prev.collection}/${prev.id}/`}
@@ -32,35 +29,26 @@ const next = items[(index - 1 + items.length) % items.length];
                 class="order-2 w-full h-full group-hover:text-black group-hover:dark:text-white blend"
             >
                 <div class="flex flex-wrap gap-2">
-                    <div class="text-sm uppercase">Prev</div>
+                    <div class="text-sm font-departure uppercase">Prev</div>
                 </div>
                 <div class="font-semibold mt-3 text-black dark:text-white">
                     {prev.data.title}
                 </div>
             </div>
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="order-1 stroke-current group-hover:stroke-black group-hover:dark:stroke-white rotate-180"
-            >
-                <line
-                    x1="5"
-                    y1="12"
-                    x2="19"
-                    y2="12"
-                    class="scale-x-0 group-hover:scale-x-100 translate-x-4 group-hover:translate-x-1 transition-all duration-300 ease-in-out"
-                ></line>
-                <polyline
-                    points="12 5 19 12 12 19"
-                    class="translate-x-0 group-hover:translate-x-1 transition-all duration-300 ease-in-out"
-                ></polyline>
-            </svg>
+            <div class="relative overflow-hidden w-4 h-4">
+                <Icon
+                    name="pixelarticons:arrow-left"
+                    class:list="absolute left-0 inset-y-0 text-lg origin-right
+                        scale-x-0 group-hover:scale-x-100
+                        transition-all duration-300 ease-in-out"
+                />
+                <Icon
+                    name="pixelarticons:chevron-left"
+                    class:list="absolute left-0 inset-y-0 text-lg
+                        group-hover:-translate-x-4
+                        transition-all duration-300 ease-in-out"
+                />
+            </div>
         </a>
         <a
             href={`/${next.collection}/${next.id}/`}
@@ -69,34 +57,25 @@ const next = items[(index - 1 + items.length) % items.length];
             <div
                 class="w-full h-full text-right group-hover:text-black group-hover:dark:text-white blend"
             >
-                <div class="text-sm uppercase">Next</div>
+                <div class="text-sm font-departure uppercase">Next</div>
                 <div class="font-semibold mt-3 text-black dark:text-white">
                     {next.data.title}
                 </div>
             </div>
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke-width="2.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="stroke-current group-hover:stroke-black group-hover:dark:stroke-white"
-            >
-                <line
-                    x1="5"
-                    y1="12"
-                    x2="19"
-                    y2="12"
-                    class="scale-x-0 group-hover:scale-x-100 translate-x-4 group-hover:translate-x-1 transition-all duration-300 ease-in-out"
-                ></line>
-                <polyline
-                    points="12 5 19 12 12 19"
-                    class="translate-x-0 group-hover:translate-x-1 transition-all duration-300 ease-in-out"
-                ></polyline>
-            </svg>
+            <div class="relative overflow-hidden w-4 h-4">
+                <Icon
+                    name="pixelarticons:arrow-right"
+                    class:list="absolute right-0 inset-y-0 text-lg origin-left
+                        scale-x-0 group-hover:scale-x-100
+                        transition-all duration-300 ease-in-out"
+                />
+                <Icon
+                    name="pixelarticons:chevron-right"
+                    class:list="absolute right-0 inset-y-0 text-lg
+                        group-hover:translate-x-4
+                        transition-all duration-300 ease-in-out"
+                />
+            </div>
         </a>
     </div>
 </div>

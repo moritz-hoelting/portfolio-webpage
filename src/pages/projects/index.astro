@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import PageLayout from "@/layouts/PageLayout.astro";
 import TopLayout from "@/layouts/TopLayout.astro";
 import BottomLayout from "@/layouts/BottomLayout.astro";
-// import Projects from "@components/Projects";
+import Projects from "@/components/Projects";
 import { PROJECTS } from "@/consts";
 
 const projects = (await getCollection("projects"))
@@ -23,9 +23,7 @@ const tags = [
     </TopLayout>
     <BottomLayout>
         <div class="animate">
-            <!-- <Projects client:load tags={tags} data={projects} /> -->
-            <div>{JSON.stringify(projects)}</div>
-            <div>{JSON.stringify(tags)}</div>
+            <Projects client:load tags={tags} data={projects} />
         </div>
     </BottomLayout>
 </PageLayout>
