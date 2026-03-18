@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import { SITE, LINKS } from "@/consts";
 import { cn } from "@/lib/utils";
 import Container from "@/components/Container.astro";
+import { Icon } from "astro-icon/components";
 
 import pictureOfMe from "@/images/me.jpg";
 
@@ -24,7 +25,7 @@ const subpath = pathname.match(/[^/]+/g);
                         src={pictureOfMe}
                         loading="eager"
                         alt="Me"
-                        class="size-6 fill-current rounded-full"
+                        class="size-6 fill-current rounded-lg"
                         quality="low"
                     />
                     <div class="font-departure font-bold">
@@ -44,7 +45,7 @@ const subpath = pathname.match(/[^/]+/g);
                             <a
                                 href={LINK.HREF}
                                 class={cn(
-                                    "h-8 rounded-full px-3 text-current font-departure",
+                                    "h-8 rounded-xl px-3 text-current font-departure",
                                     "flex items-center justify-center",
                                     "transition-colors duration-300 ease-in-out",
                                     pathname === LINK.HREF ||
@@ -65,7 +66,7 @@ const subpath = pathname.match(/[^/]+/g);
             >
                 <a
                     href="/search/"
-                    aria-label={`Search blog posts and projects on ${SITE.TITLE}`}
+                    aria-label="Search blog posts and projects"
                     class={cn(
                         "hidden md:flex",
                         "size-9 rounded-full p-2 items-center justify-center text-center",
@@ -79,30 +80,28 @@ const subpath = pathname.match(/[^/]+/g);
                             : "",
                     )}
                 >
-                    <span class="size-full text-2xl -translate-y-2"
-                        >&#xf002</span
-                    >
+                    <Icon name="pixelarticons:search" class:list="text-xl" />
                 </a>
 
                 <a
                     href="/rss.xml"
                     target="_blank"
-                    aria-label={`Rss feed for ${SITE.TITLE}`}
+                    aria-label="Rss feed"
                     class={cn(
                         "hidden md:flex",
                         "size-9 rounded-full p-2 items-center justify-center text-center",
                         "bg-transparent hover:bg-black/5 dark:hover:bg-white/20",
                         "stroke-current hover:stroke-black hover:dark:stroke-white",
                         "border border-black/10 dark:border-white/25",
-                        "transition-colors duration-300 ease-in-out",
+                        "transition-colors duration-300 ease-in-out active:opacity-1!",
                     )}
                 >
-                    <div class="size-full text-2xl -translate-y-2">&#xf428</div>
+                    <Icon name="pixelarticons:rss" class:list="text-xl" />
                 </a>
 
                 <button
                     id="header-theme-button"
-                    aria-label={`Toggle light and dark theme`}
+                    aria-label="Toggle light and dark theme"
                     class={cn(
                         "hidden md:flex",
                         "size-9 rounded-full p-2 items-center justify-center text-center",
@@ -112,14 +111,14 @@ const subpath = pathname.match(/[^/]+/g);
                         "transition-colors duration-300 ease-in-out",
                     )}
                 >
-                    <span
-                        class="size-full text-2xl -translate-y-2 block dark:hidden"
-                        >&#xf522</span
-                    >
-                    <span
-                        class="size-full text-2xl -translate-y-2 hidden dark:block"
-                        >&#xf4ee</span
-                    >
+                    <Icon
+                        name="pixelarticons:sun"
+                        class:list={"text-xl block dark:hidden"}
+                    />
+                    <Icon
+                        name="pixelarticons:moon"
+                        class:list={"text-xl hidden dark:block"}
+                    />
                 </button>
 
                 <button
@@ -134,8 +133,15 @@ const subpath = pathname.match(/[^/]+/g);
                         "transition-colors duration-300 ease-in-out",
                     )}
                 >
-                    <div id="drawer-open" class="text-2xl">&#xf0c9</div>
-                    <div id="drawer-close" class="text-2xl">&#xf467</div>
+                    <div id="drawer-open">
+                        <Icon name="pixelarticons:menu" class:list="text-xl" />
+                    </div>
+                    <div id="drawer-close">
+                        <Icon
+                            name="pixelarticons:chevron-up"
+                            class:list="text-xl"
+                        />
+                    </div>
                 </button>
             </div>
         </div>

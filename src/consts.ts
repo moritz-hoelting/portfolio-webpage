@@ -55,19 +55,19 @@ export const LINKS: Links = [
 export const SOCIALS: Socials = [
     {
         NAME: "Email",
-        ICON: "\udb80\uddee",
+        ICON: "pixelarticons:at-sign",
         TEXT: "moritz@hoelting.dev",
         HREF: "mailto:moritz@hoelting.dev",
     },
     {
         NAME: "Github",
-        ICON: "\uf09b",
+        ICON: "pixel:github",
         TEXT: "moritz-hoelting",
         HREF: "https://github.com/moritz-hoelting",
     },
     {
         NAME: "LinkedIn",
-        ICON: "\udb80\udf3b",
+        ICON: "pixel:linkedin",
         TEXT: "moritz-hölting",
         HREF: "https://www.linkedin.com/in/moritz-h%C3%B6lting/",
     },

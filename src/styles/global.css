@@ -10,6 +10,7 @@
         font-style: normal;
         font-display: swap;
     }
+
     @font-face {
         font-family: "FiraCode";
         src: url("/fonts/FiraCode-Regular.woff") format("woff");
@@ -17,6 +18,7 @@
         font-style: normal;
         font-display: swap;
     }
+
     @font-face {
         font-family: "FiraCode";
         src: url("/fonts/FiraCode-Bold.woff") format("woff");
@@ -28,19 +30,19 @@
     html {
         overflow-y: scroll;
         color-scheme: light;
-        background-color: white;
+        background-color: oklch(87.1% 0.006 286.286);
         font-family: "FiraCode", monospace;
     }
 
     html.dark {
         color-scheme: dark;
-        background-color: black;
+        background-color: oklch(21% 0.006 285.885);
     }
 
     html,
     body {
         @apply h-full w-full antialiased;
-        @apply bg-white dark:bg-black;
+        @apply bg-white dark:bg-zinc-900;
         @apply text-black/75 dark:text-white/75;
     }
 
@@ -49,7 +51,7 @@
     }
 
     main {
-        @apply flex flex-col flex-1 bg-white dark:bg-black;
+        @apply flex flex-col flex-1 bg-zinc-300 dark:bg-zinc-900;
     }
 
     header {
@@ -62,7 +64,7 @@
     }
 
     header.scrolled {
-        @apply bg-white/75 dark:bg-black/50;
+        @apply bg-zinc-200/75 dark:bg-zinc-950/50;
         @apply border-black/10 dark:border-white/25;
         @apply backdrop-blur-sm saturate-200;
     }
@@ -77,6 +79,17 @@
 
     .blend {
         @apply transition-all duration-300 ease-in-out;
+    }
+
+    .animate {
+        opacity: 0;
+        transform: translateY(5px);
+        transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .animate.show {
+        opacity: 1;
+        transform: translateY(0);
     }
 
     article img {

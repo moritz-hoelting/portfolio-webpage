@@ -1,0 +1,29 @@
+---
+import { Icon } from "astro-icon/components";
+import ArrowCardInner from "./ArrowCardInner";
+import type { CollectionEntry } from "astro:content";
+
+export interface Props {
+    entry: CollectionEntry<"blog"> | CollectionEntry<"projects">;
+    pill?: string;
+}
+
+const { entry, pill } = Astro.props;
+---
+
+<ArrowCardInner {entry} {pill}>
+    <div class="relative overflow-hidden w-4 h-4">
+        <Icon
+            name="pixelarticons:arrow-right"
+            class:list="absolute right-0 inset-y-0 text-lg origin-left
+                                    scale-x-0 group-hover:scale-x-100
+                                    transition-all duration-300 ease-in-out"
+        />
+        <Icon
+            name="pixelarticons:chevron-right"
+            class:list="absolute right-0 inset-y-0 text-lg
+                                    group-hover:translate-x-4
+                                    transition-all duration-300 ease-in-out"
+        />
+    </div>
+</ArrowCardInner>
