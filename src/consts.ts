@@ -7,10 +7,10 @@ export const SITE: Site = {
     AUTHOR: "Moritz Hölting",
 };
 
-// Work Page
-export const WORK: Page = {
-    TITLE: "Work",
-    DESCRIPTION: "Places I have worked.",
+// Qualifications Page
+export const QUALIFICATIONS: Page = {
+    TITLE: "Work & Education",
+    DESCRIPTION: "My work and education history.",
 };
 
 // Blog Page
@@ -38,8 +38,8 @@ export const LINKS: Links = [
         HREF: "/",
     },
     {
-        TEXT: "Work",
-        HREF: "/work/",
+        TEXT: "Qualifications",
+        HREF: "/qualifications/",
     },
     {
         TEXT: "Blog",

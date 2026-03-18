@@ -1,0 +1,123 @@
+---
+import { getCollection, render } from "astro:content";
+import PageLayout from "@/layouts/PageLayout.astro";
+import TopLayout from "@/layouts/TopLayout.astro";
+import BottomLayout from "@/layouts/BottomLayout.astro";
+import { QUALIFICATIONS } from "@/consts";
+
+const workCollection = await getCollection("work");
+const educationCollection = await getCollection("education");
+
+workCollection.sort(
+    (a, b) =>
+        new Date(b.data.dateStart).getTime() -
+        new Date(a.data.dateStart).getTime(),
+);
+educationCollection.sort(
+    (a, b) =>
+        new Date(b.data.dateStart).getTime() -
+        new Date(a.data.dateStart).getTime(),
+);
+
+const work = await Promise.all(
+    workCollection.map(async (item) => {
+        const { Content } = await render(item);
+        return { ...item, Content };
+    }),
+);
+const education = await Promise.all(
+    educationCollection.map(async (item) => {
+        const { Content } = await render(item);
+        return { ...item, Content };
+    }),
+);
+
+function formatShortDate(input: Date | string) {
+    if (typeof input === "string") return input;
+
+    const month = input.toLocaleDateString("en-US", {
+        month: "short",
+    });
+
+    const year = new Date(input).getFullYear();
+    return `${month} ${year}`;
+}
+---
+
+<PageLayout
+    title={QUALIFICATIONS.TITLE}
+    description={QUALIFICATIONS.DESCRIPTION}
+>
+    <!-- Work -->
+    <TopLayout>
+        <div class="animate page-heading font-departure text-2xl">Work</div>
+    </TopLayout>
+    <BottomLayout>
+        <ul class="border-b border-black/10 dark:border-white/25">
+            {
+                work.map((entry) => (
+                    <li class="animate border-b border-black/10 dark:border-white/25 mt-4 py-8 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
+                        <div class="font-departure text-sm uppercase mb-4">
+                            {formatShortDate(entry.data.dateStart)} -{" "}
+                            {formatShortDate(entry.data.dateEnd)}
+                        </div>
+                        <div class="font-departure text-black dark:text-white font-semibold">
+                            {entry.data.company}
+                        </div>
+                        <div class="font-departure text-sm font-semibold">
+                            {entry.data.role}
+                        </div>
+                        {entry.body && (
+                            <article class="prose dark:prose-invert mt-2 pb-8">
+                                <entry.Content />
+                            </article>
+                        )}
+                    </li>
+                ))
+            }
+        </ul>
+    </BottomLayout>
+
+    <!-- Education -->
+    <TopLayout>
+        <div class="animate page-heading font-departure text-2xl">
+            Education
+        </div>
+    </TopLayout>
+    <BottomLayout>
+        <ul>
+            {
+                education.map((entry) => (
+                    <li class="animate border-b border-black/10 dark:border-white/25 mt-4 py-8 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
+                        <div class="font-departure text-sm uppercase mb-4">
+                            {formatShortDate(entry.data.dateStart)} -{" "}
+                            {formatShortDate(entry.data.dateEnd)}
+                        </div>
+                        <div class="font-departure text-black dark:text-white font-semibold">
+                            {entry.data.institution}
+                        </div>
+                        <div class="font-departure text-sm font-semibold">
+                            {entry.data.degree}
+                            {entry.data.field && ` - ${entry.data.field}`}
+                        </div>
+                        {(entry.data.finalGrade || entry.data.location) && (
+                            <div class="text-sm">
+                                {entry.data.finalGrade &&
+                                    `Grade: ${
+                                        entry.data.finalGrade +
+                                        (entry.data.location ? ", " : "")
+                                    }`}
+                                {entry.data.location}
+                            </div>
+                        )}
+                        {entry.body && (
+                            <article class="prose dark:prose-invert mt-2 pb-8">
+                                <entry.Content />
+                            </article>
+                        )}
+                    </li>
+                ))
+            }
+        </ul>
+    </BottomLayout>
+</PageLayout>

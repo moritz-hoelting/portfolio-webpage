@@ -2,7 +2,7 @@
 company: "Diebold Nixdorf"
 role: "Working Student - Infrastructure & Operations"
 dateStart: 2024-05-01
-dateEnd: 2025-04-30
+dateEnd: 2026-10-31
 ---
 
 At at Diebold Nixdorf, I am responsible for conducting "experiments" with new
