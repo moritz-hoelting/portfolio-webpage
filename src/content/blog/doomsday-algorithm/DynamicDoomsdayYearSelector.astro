@@ -1,0 +1,53 @@
+---
+export interface Props {
+    suffix?: string;
+}
+
+const { suffix } = Astro.props;
+---
+
+<input
+    type="number"
+    name="doomsday-year"
+    id="doomsday-year"
+    min="1583"
+    class="w-16 font-departure"
+/><span class="noscript-hide">{suffix}</span>
+<noscript>
+    <span class="text-red-500"
+        >JavaScript is required for this feature to work.</span
+    >
+
+    <style>
+        #doomsday-year {
+            display: none;
+        }
+    </style>
+</noscript>
+
+<script>
+    const currentYearInput = document.getElementById(
+        "doomsday-year",
+    ) as HTMLInputElement;
+    currentYearInput.value = new Date().getFullYear().toString();
+    const url = new URL(window.location.href);
+    const yearParam = url.searchParams.get("year");
+    if (yearParam) {
+        const year = parseInt(yearParam);
+        if (!isNaN(year) && year >= 1583) {
+            currentYearInput.value = year.toString();
+        } else {
+            url.searchParams.delete("year");
+            window.history.replaceState({}, "", url);
+        }
+    }
+    currentYearInput.addEventListener("change", () => {
+        const year = parseInt(currentYearInput.value);
+        if (isNaN(year) || year < 1583) {
+            currentYearInput.value = "1583";
+        }
+        const url = new URL(window.location.href);
+        url.searchParams.set("year", currentYearInput.value);
+        window.history.replaceState({}, "", url);
+    });
+</script>

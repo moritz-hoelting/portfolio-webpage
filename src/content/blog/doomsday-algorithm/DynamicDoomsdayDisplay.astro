@@ -1,0 +1,245 @@
+---
+import { cn } from "@/lib/utils";
+
+export interface Props {
+    display:
+        | "weekday"
+        | "weekday-number"
+        | "weekday-of"
+        | "weekday-number-of"
+        | "year"
+        | "january-day"
+        | "february-day"
+        | "if-leap-year";
+    prefix?: string;
+    suffix?: string;
+    offset?: number;
+    resultModulo?: number;
+    value?: string;
+    valueAlt?: string;
+    valueClass?: string;
+}
+
+const {
+    display,
+    prefix,
+    suffix,
+    offset,
+    resultModulo,
+    valueClass: customClass,
+    value,
+    valueAlt,
+} = Astro.props;
+---
+
+<span class={cn(`doomsday-display doomsday-${display}`)}
+    >{prefix}<span
+        class={cn("doomsday-value", customClass)}
+        data-offset={offset}
+        data-resultmodulo={resultModulo}
+        data-value={value}
+        data-valuealt={valueAlt}><slot /></span
+    >{suffix}</span
+>
+
+<script>
+    function isLeapYear(year: number) {
+        return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    }
+    function optionalModulo(value: number, modulo?: number): number {
+        if (modulo === undefined) {
+            return value;
+        }
+        return (value + modulo) % modulo;
+    }
+    function dateFromValueString(value: string, year: number): Date | null {
+        const parts = value.split(".");
+        if (parts.length !== 3) {
+            return null;
+        }
+        const [dayStr, monthStr, _] = parts;
+        const day = parseInt(dayStr);
+        const month = parseInt(monthStr) - 1;
+        if (isNaN(day) || isNaN(month) || month < 0 || month > 11) {
+            return null;
+        }
+        const date = new Date(year, month, day);
+        return date;
+    }
+    function handleOffset<T>(
+        element: HTMLElement,
+        fn: (offset: number, modulo?: number) => T,
+    ): T {
+        const offset = parseInt(element.dataset.offset || "0");
+        const resultModulo = element.dataset.resultmodulo
+            ? parseInt(element.dataset.resultmodulo)
+            : undefined;
+        return fn(offset, resultModulo);
+    }
+    const weekdays = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ];
+    const currentYearInput = document.getElementById(
+        "doomsday-year",
+    ) as HTMLInputElement | null;
+
+    let firstUpdate = true;
+    const url = new URL(window.location.href);
+    const yearParam = url.searchParams.get("year");
+    const parsedYearParam = yearParam ? parseInt(yearParam) : null;
+    const initialYear =
+        parsedYearParam && !isNaN(parsedYearParam) && parsedYearParam >= 1583
+            ? parsedYearParam
+            : new Date().getFullYear();
+    function update() {
+        const selectedYear =
+            !firstUpdate && currentYearInput && currentYearInput.value
+                ? parseInt(currentYearInput.value)
+                : initialYear;
+        firstUpdate = false;
+        console.log("Selected Year:", selectedYear);
+        const isSelectedYearLeap = isLeapYear(selectedYear);
+        const febDoomsdayDay = 28 + (isSelectedYearLeap ? 1 : 0);
+
+        // Display the selected year
+        const yearElements = document.querySelectorAll(
+            ".doomsday-display.doomsday-year > .doomsday-value",
+        );
+        yearElements.forEach((element) => {
+            element.textContent = handleOffset(
+                element as HTMLElement,
+                (offset, modulo) =>
+                    optionalModulo(selectedYear + offset, modulo).toString(),
+            );
+        });
+
+        // Display the doomsday weekday for the selected year
+        const doomsdayWeekdayElements = document.querySelectorAll(
+            ".doomsday-display.doomsday-weekday > .doomsday-value",
+        );
+        const doomsdayDate = new Date(selectedYear, 2, febDoomsdayDay);
+
+        const doomsdayOfSelectedYear = doomsdayDate.getDay();
+        const doomsdayOfSelectedYearInText = weekdays[doomsdayOfSelectedYear];
+
+        doomsdayWeekdayElements.forEach((element) => {
+            element.textContent = handleOffset(
+                element as HTMLElement,
+                (offset) => {
+                    if (offset === 0) {
+                        return doomsdayOfSelectedYearInText;
+                    } else {
+                        const adjustedDoomsday = optionalModulo(
+                            doomsdayOfSelectedYear + offset,
+                            7,
+                        );
+                        return weekdays[adjustedDoomsday];
+                    }
+                },
+            );
+        });
+
+        // Display the weekday number of the doomsday for the selected year
+        const doomsdayWeekdayNumberElements = document.querySelectorAll(
+            ".doomsday-display.doomsday-weekday-number > .doomsday-value",
+        );
+
+        doomsdayWeekdayNumberElements.forEach((element) => {
+            element.textContent = handleOffset(
+                element as HTMLElement,
+                (offset) =>
+                    optionalModulo(
+                        doomsdayOfSelectedYear + offset,
+                        7,
+                    ).toString(),
+            ).toString();
+        });
+
+        // Display the doomsday date for January and February
+        const janDoomsdayDay = isSelectedYearLeap ? 4 : 3;
+        const janDoomsdayDayElements = document.querySelectorAll(
+            ".doomsday-display.doomsday-january-day > .doomsday-value",
+        );
+        janDoomsdayDayElements.forEach((element) => {
+            element.textContent = handleOffset(
+                element as HTMLElement,
+                (offset, modulo) =>
+                    optionalModulo(janDoomsdayDay + offset, modulo).toString(),
+            );
+        });
+        const febDoomsdayDayElements = document.querySelectorAll(
+            ".doomsday-display.doomsday-february-day > .doomsday-value",
+        );
+        febDoomsdayDayElements.forEach((element) => {
+            element.textContent = handleOffset(
+                element as HTMLElement,
+                (offset, modulo) =>
+                    optionalModulo(febDoomsdayDay + offset, modulo).toString(),
+            );
+        });
+
+        // Weekday of a specific date
+        const weekdayOfElements = document.querySelectorAll(
+            ".doomsday-display.doomsday-weekday-of > .doomsday-value",
+        );
+        weekdayOfElements.forEach((element) => {
+            const dateStr = (element as HTMLElement).dataset.value || "";
+            const date = dateFromValueString(dateStr, selectedYear);
+            if (date === null) {
+                element.textContent = "INVALID DATE";
+                element.classList.add("text-red-500");
+                return;
+            }
+            const weekday = date.getDay();
+            element.textContent = handleOffset(
+                element as HTMLElement,
+                (offset) => {
+                    const adjustedWeekday = optionalModulo(weekday + offset, 7);
+                    return weekdays[adjustedWeekday];
+                },
+            );
+        });
+        const weekdayNumberOfElements = document.querySelectorAll(
+            ".doomsday-display.doomsday-weekday-number-of > .doomsday-value",
+        );
+        weekdayNumberOfElements.forEach((element) => {
+            const dateStr = (element as HTMLElement).dataset.value || "";
+            const date = dateFromValueString(dateStr, selectedYear);
+            if (date === null) {
+                element.textContent = "INVALID DATE";
+                element.classList.add("text-red-500");
+                return;
+            }
+            const weekday = date.getDay();
+            element.textContent = handleOffset(
+                element as HTMLElement,
+                (offset, modulo) => {
+                    const adjustedWeekday = optionalModulo(
+                        weekday + offset,
+                        modulo,
+                    );
+                    return adjustedWeekday.toString();
+                },
+            );
+        });
+
+        // Conditional on the leap year status
+        const ifLeapYearElements = document.querySelectorAll(
+            ".doomsday-display.doomsday-if-leap-year > .doomsday-value",
+        );
+        ifLeapYearElements.forEach((element) => {
+            element.textContent = isSelectedYearLeap
+                ? (element as HTMLElement).dataset.value || ""
+                : (element as HTMLElement).dataset.valuealt || "";
+        });
+    }
+    currentYearInput?.addEventListener("change", update);
+
+    update();
+</script>
