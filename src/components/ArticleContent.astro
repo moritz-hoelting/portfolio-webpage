@@ -13,22 +13,22 @@ const { Content, headings } = await render(entry);
 
 <div class="article-layout">
     <!-- Sidebar -->
-    <aside
-        class="animate toc font-departure max-w-3xl mx-auto px-5 xl:fixed xl:top-24 xl:right-[max(2rem,calc((100vw-84rem)/2))] xl:h-max xl:w-66"
-    >
-        <h3 class="font-semibold text-[0.9rem] opacity-70 mb-2">
-            On this page
-        </h3>
-        <ul class="list-none p-0 m-0">
-            {
-                headings.map((h) => (
-                    <li class={`level-${h.depth}`}>
-                        <a href={`#${h.slug}`}>{h.text}</a>
-                    </li>
-                ))
-            }
-        </ul>
-    </aside>
+    {
+        headings.length > 0 && (
+            <aside class="animate toc font-departure max-w-3xl mx-auto px-5 xl:fixed xl:top-24 xl:right-[max(2rem,calc((100vw-84rem)/2))] xl:h-max xl:w-66">
+                <h3 class="font-semibold text-[0.9rem] opacity-70 mb-2">
+                    On this page
+                </h3>
+                <ul class="list-none p-0 m-0">
+                    {headings.map((h) => (
+                        <li class={`level-${h.depth}`}>
+                            <a href={`#${h.slug}`}>{h.text}</a>
+                        </li>
+                    ))}
+                </ul>
+            </aside>
+        )
+    }
 
     <!-- Main content -->
     <Container size="md">

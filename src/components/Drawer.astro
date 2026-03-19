@@ -1,6 +1,7 @@
 ---
 import { SITE, LINKS } from "@/consts";
 import { cn } from "@/lib/utils";
+import { Icon } from "astro-icon/components";
 const { pathname } = Astro.url;
 const subpath = pathname.match(/[^/]+/g);
 ---
@@ -36,35 +37,37 @@ const subpath = pathname.match(/[^/]+/g);
             href="/search/"
             aria-label={`Search blog posts and projects on ${SITE.TITLE}`}
             class={cn(
-                "size-9 rounded-full p-2 items-center justify-center text-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out",
+                "size-9 rounded-full p-2 flex items-center justify-center text-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out",
                 pathname === "/search/" || "/" + subpath?.[0] === "search"
                     ? "pointer-events-none bg-black dark:bg-white text-white dark:text-black"
                     : "",
             )}
         >
-            <div class="text-2xl -translate-y-2">&#xf002</div>
+            <Icon name="pixelarticons:search" class:list="text-xl" />
         </a>
 
         <a
             href="/rss.xml"
             target="_blank"
             aria-label={`Rss feed for ${SITE.TITLE}`}
-            class="size-9 rounded-full p-2 items-center justify-center text-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out"
+            class="size-9 rounded-full p-2 flex items-center justify-center text-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out"
         >
-            <div class="text-2xl -translate-y-2">&#xf428</div>
+            <Icon name="pixelarticons:rss" class:list="text-xl" />
         </a>
 
         <button
             id="drawer-theme-button"
             aria-label={`Toggle light and dark theme`}
-            class="size-9 rounded-full p-2 items-center justify-center text-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out"
+            class="size-9 rounded-full p-2 flex items-center justify-center text-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out"
         >
-            <span class="block dark:hidden text-2xl -translate-y-2"
-                >&#xf522</span
-            >
-            <span class="hidden dark:block text-2xl -translate-y-2"
-                >&#xf4ee</span
-            >
+            <Icon
+                name="pixelarticons:sun"
+                class:list={"text-xl block dark:hidden"}
+            />
+            <Icon
+                name="pixelarticons:moon"
+                class:list={"text-xl hidden dark:block"}
+            />
         </button>
     </div>
 </div>
