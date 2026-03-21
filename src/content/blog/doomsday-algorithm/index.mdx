@@ -98,6 +98,7 @@ First, we take the last two digits of the year. If this number is odd, we add 11
 Finally, we take 7 minus modulo 7 of the result and count forward that many days from the Doomsday of the century. The resulting weekday is the Doomsday of the year.
 This algorithm can be remembered with the following flowchart:
 
+<div class="noscript:hidden">
 ```mermaid
 flowchart TD
     B[Let T = last two digits of year] --> C{Is T odd?}
@@ -116,6 +117,10 @@ flowchart TD
     
     K --> L[Doomsday of the year]
 ```
+</div>
+<div class="not-noscript:hidden font-semibold italic">
+    Please enable JavaScript to see the flowchart for the first method.
+</div>
 
 The second method is more mathematical and follows the steps:
 

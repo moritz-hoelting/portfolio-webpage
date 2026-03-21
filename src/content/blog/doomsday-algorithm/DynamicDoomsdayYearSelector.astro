@@ -11,19 +11,10 @@ const { suffix } = Astro.props;
     name="doomsday-year"
     id="doomsday-year"
     min="1583"
-    class="w-16 font-departure"
-/><span class="noscript-hide">{suffix}</span>
-<noscript>
-    <span class="text-red-500"
-        >JavaScript is required for this feature to work.</span
-    >
-
-    <style>
-        #doomsday-year {
-            display: none;
-        }
-    </style>
-</noscript>
+    class="w-16 font-departure noscript:hidden"
+/><span class="text-red-500 not-noscript:hidden"
+    >JavaScript is required for this feature to work</span
+>{suffix}
 
 <script>
     const currentYearInput = document.getElementById(

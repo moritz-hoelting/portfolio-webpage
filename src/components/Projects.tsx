@@ -10,22 +10,23 @@ type Props = {
 };
 
 export default function Projects({ data, tags }: Props) {
+    function filterProjects(): CollectionEntry<"projects">[] {
+        return data.filter((entry) =>
+            Array.from(filter()).every((value) =>
+                entry.data.tags.some(
+                    (tag: string) =>
+                        tag.toLowerCase() === String(value).toLowerCase(),
+                ),
+            ),
+        );
+    }
+
     const [filter, setFilter] = createSignal(new Set<string>());
-    const [projects, setProjects] = createSignal<CollectionEntry<"projects">[]>(
-        []
-    );
+    const [projects, setProjects] =
+        createSignal<CollectionEntry<"projects">[]>(filterProjects());
 
     createEffect(() => {
-        setProjects(
-            data.filter((entry) =>
-                Array.from(filter()).every((value) =>
-                    entry.data.tags.some(
-                        (tag: string) =>
-                            tag.toLowerCase() === String(value).toLowerCase()
-                    )
-                )
-            )
-        );
+        setProjects(filterProjects());
     });
 
     function toggleTag(tag: string) {
@@ -34,14 +35,14 @@ export default function Projects({ data, tags }: Props) {
                 new Set(
                     prev.has(tag)
                         ? [...prev].filter((t) => t !== tag)
-                        : [...prev, tag]
-                )
+                        : [...prev, tag],
+                ),
         );
     }
 
     return (
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div class="col-span-3 sm:col-span-1">
+        <div class="not-noscript:grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="col-span-3 sm:col-span-1 noscript:hidden">
                 <div class="sticky top-24">
                     <div class="text-sm font-semibold font-departure uppercase mb-2 text-black dark:text-white">
                         Filter
@@ -60,21 +61,27 @@ export default function Projects({ data, tags }: Props) {
                                             "hover:bg-black/10 hover:dark:bg-white/15",
                                             "transition-colors duration-300 ease-in-out",
                                             filter().has(tag) &&
-                                            "text-black dark:text-white"
+                                                "text-black dark:text-white",
                                         )}
                                     >
-                                        <div class={cn(
-                                            "relative size-5 fill-black/50 dark:fill-white/50",
-                                            "transition-colors duration-300 ease-in-out",
-                                            filter().has(tag) &&
-                                            "fill-black dark:fill-white"
-                                        )}>
+                                        <div
+                                            class={cn(
+                                                "relative size-5 fill-black/50 dark:fill-white/50",
+                                                "transition-colors duration-300 ease-in-out",
+                                                filter().has(tag) &&
+                                                    "fill-black dark:fill-white",
+                                            )}
+                                        >
                                             <Icon icon="pixelarticons:square" />
-                                            <Icon icon="pixel:check" class={cn("absolute top-0 right-0",
-                                                filter().has(tag)
-                                                    ? "block"
-                                                    : "hidden"
-                                            )} />
+                                            <Icon
+                                                icon="pixel:check"
+                                                class={cn(
+                                                    "absolute top-0 right-0",
+                                                    filter().has(tag)
+                                                        ? "block"
+                                                        : "hidden",
+                                                )}
+                                            />
                                         </div>
                                         {tag}
                                     </button>

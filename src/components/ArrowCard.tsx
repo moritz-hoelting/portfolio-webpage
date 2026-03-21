@@ -1,7 +1,6 @@
-
 import type { CollectionEntry } from "astro:content";
 import { formatDate } from "@/lib/utils";
-import { Icon } from '@iconify-icon/solid';
+import { Icon } from "@iconify-icon/solid";
 
 type Props = {
     entry: CollectionEntry<"blog"> | CollectionEntry<"projects">;
@@ -31,13 +30,11 @@ export default function ArrowCard({ entry, pill }: Props) {
 
                 <div class="text-sm line-clamp-2">{entry.data.summary}</div>
                 <ul class="flex flex-wrap mt-2 gap-1">
-                    {entry.data.tags.map(
-                        (tag) => (
-                            <li class="text-xs font-departure uppercase py-0.5 px-1 rounded bg-black/5 dark:bg-white/20 text-black/75 dark:text-white/75">
-                                {tag}
-                            </li>
-                        )
-                    )}
+                    {entry.data.tags.map((tag) => (
+                        <li class="text-xs font-departure uppercase py-0.5 px-1 rounded bg-black/5 dark:bg-white/20 text-black/75 dark:text-white/75">
+                            {tag}
+                        </li>
+                    ))}
                 </ul>
             </div>
             <div class="relative overflow-hidden w-4 h-4">
