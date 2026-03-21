@@ -15,7 +15,7 @@ export default defineConfig({
     trailingSlash: "always",
 
     integrations: [
-        sitemap(),
+        sitemap({ lastmod: new Date() }),
         mermaid({
             autoTheme: true,
             mermaidConfig: {
