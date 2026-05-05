@@ -34,7 +34,10 @@ const { title, summary } = post.data;
             <ArticleTopLayout entry={post} />
         </div>
     </TopLayout>
-    <ArticleContent entry={post} />
+    <ArticleContent
+        entry={post}
+        commentsCategory={{ name: "Blog", id: "DIC_kwDOSU8cAc4C8Ynz" }}
+    />
     <BottomLayout>
         <div class="animate">
             <ArticleBottomLayout entry={post} />

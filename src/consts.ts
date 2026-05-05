@@ -72,3 +72,9 @@ export const SOCIALS: Socials = [
         HREF: "https://www.linkedin.com/in/moritz-h%C3%B6lting/",
     },
 ];
+
+
+export const GISCUS_REPO = {
+    name: "moritz-hoelting/portfolio-webpage-comments",
+    id: "R_kgDOSU8cAQ",
+};

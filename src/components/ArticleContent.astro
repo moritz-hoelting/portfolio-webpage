@@ -1,15 +1,56 @@
 ---
 import { render, type CollectionEntry } from "astro:content";
 import Container from "./Container.astro";
+import { GISCUS_REPO } from "@/consts";
 
 type Props = {
     entry: CollectionEntry<"projects"> | CollectionEntry<"blog">;
+    commentsCategory?: {name: string, id: string};
 };
 
-const { entry } = Astro.props;
+const { entry, commentsCategory } = Astro.props;
 
 const { Content, headings } = await render(entry);
 ---
+
+{(commentsCategory && <script>
+    import "giscus";
+
+    function getIFrame(): HTMLIFrameElement | null {
+        return document.querySelector(
+            "giscus-widget",
+        )?.shadowRoot?.querySelector('iframe') as HTMLIFrameElement | null;
+    }
+
+    function updateGiscusTheme() {
+        const brightness = document.documentElement.classList.contains("dark")
+            ? "dark"
+            : "light";
+        const theme = `${window.location.origin}/css/giscus-theme-${brightness}.css`;
+        const iframe = getIFrame();
+        if (!iframe) return;
+        iframe.contentWindow?.postMessage(
+            { giscus: { setConfig: { theme } } },
+            "https://giscus.app",
+        );
+    }
+
+    const observer = new MutationObserver(updateGiscusTheme);
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["class"],
+    });
+
+    document.querySelector("giscus-widget")!.addEventListener("load", updateGiscusTheme);
+
+    let updatedTheme = false;
+    window.addEventListener("message", (msg) => {
+        if (msg.origin === "https://giscus.app" && !updatedTheme) {
+            updateGiscusTheme();
+            updatedTheme = true;
+        }
+    })
+</script>)}
 
 <div class="article-layout">
     <!-- Sidebar -->
@@ -35,6 +76,20 @@ const { Content, headings } = await render(entry);
         <article class="animate content prose dark:prose-invert">
             <Content />
         </article>
+
+        {(commentsCategory && <giscus-widget
+            repo={GISCUS_REPO.name}
+            repoid={GISCUS_REPO.id}
+            category={commentsCategory.name}
+            categoryid={commentsCategory.id}
+            mapping="pathname"
+            reactionsenabled="1"
+            emitmetadata="0"
+            inputposition="top"
+            theme={`${Astro.url.origin}/css/giscus-theme-dark.css`}
+            loading="lazy"
+            lang="en"></giscus-widget> 
+        )}
     </Container>
 </div>
 

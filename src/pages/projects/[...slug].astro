@@ -34,7 +34,10 @@ const { title, summary } = project.data;
             <ArticleTopLayout entry={project} />
         </div>
     </TopLayout>
-    <ArticleContent entry={project} />
+    <ArticleContent
+        entry={project}
+        commentsCategory={{ name: "Projects", id: "DIC_kwDOSU8cAc4C8Yng" }}
+    />
     <BottomLayout>
         <div class="animate">
             <ArticleBottomLayout entry={project} />
