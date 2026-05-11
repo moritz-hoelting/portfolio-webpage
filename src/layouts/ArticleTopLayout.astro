@@ -47,6 +47,17 @@ const repoUrl = collection === "projects" ? data.repoUrl : null;
             <Icon name="pixelarticons:calendar-2" class:list="size-5" />
             {formatDate(date)}
         </div>
+        {
+            entry.data.updated && (
+                <div class="flex items-center gap-2">
+                    <Icon
+                        name="pixelarticons:calendar-range"
+                        class:list="size-5"
+                    />
+                    Updated {formatDate(entry.data.updated)}
+                </div>
+            )
+        }
         <div class="flex items-center gap-2">
             <Icon name="pixelarticons:book-open" class:list="size-5" />
             {readingTime(body ?? "")}

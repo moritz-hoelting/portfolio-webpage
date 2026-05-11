@@ -22,6 +22,11 @@ export default function ArrowCard({ entry, pill }: Props) {
                     )}
                     <div class="text-sm font-departure uppercase">
                         {formatDate(entry.data.date)}
+                        {entry.data.updated && (
+                            <span class="text-xs text-black/50 dark:text-white/50 ml-1">
+                                (updated {formatDate(entry.data.updated)})
+                            </span>
+                        )}
                     </div>
                 </div>
                 <div class="font-semibold mt-3 text-black dark:text-white">

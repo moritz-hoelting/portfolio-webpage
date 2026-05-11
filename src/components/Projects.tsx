@@ -10,15 +10,25 @@ type Props = {
 };
 
 export default function Projects({ data, tags }: Props) {
+    function getDateOfLatestUpdate(entry: CollectionEntry<"projects">) {
+        return entry.data.updated ?? entry.data.date;
+    }
+
     function filterProjects(): CollectionEntry<"projects">[] {
-        return data.filter((entry) =>
-            Array.from(filter()).every((value) =>
-                entry.data.tags.some(
-                    (tag: string) =>
-                        tag.toLowerCase() === String(value).toLowerCase(),
+        return data
+            .filter((entry) =>
+                Array.from(filter()).every((value) =>
+                    entry.data.tags.some(
+                        (tag: string) =>
+                            tag.toLowerCase() === String(value).toLowerCase(),
+                    ),
                 ),
-            ),
-        );
+            )
+            .toSorted(
+                (a, b) =>
+                    getDateOfLatestUpdate(b).getTime() -
+                    getDateOfLatestUpdate(a).getTime(),
+            );
     }
 
     const [filter, setFilter] = createSignal(new Set<string>());
